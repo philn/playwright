@@ -114,6 +114,7 @@ export abstract class BrowserTypeBase implements BrowserType {
       downloadsPath,
       ownedServer: browserServer,
       proxy: options.proxy,
+      timezoneId: options.timezoneId,
     };
     copyTestHooks(options, browserOptions);
     const browser = await this._connectToTransport(transport, browserOptions);

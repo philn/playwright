@@ -6444,14 +6444,6 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
     export type setForcedAppearanceReturnValue = {
     }
     /**
-     * Enables time zone emulation.
-     */
-    export type setTimeZoneParameters = {
-      timeZone?: string;
-    }
-    export type setTimeZoneReturnValue = {
-    }
-    /**
      * Enables touch events on platforms that lack them.
      */
     export type setTouchEmulationEnabledParameters = {
@@ -6846,6 +6838,10 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
        * Proxy bypass list, similar to the one passed to --proxy-bypass-list
        */
       proxyBypassList?: string;
+      /**
+       * Timezone override
+       */
+      timeZone?: string;
     }
     export type createContextReturnValue = {
       /**
@@ -8641,7 +8637,6 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
     "Page.setShowPaintRects": Page.setShowPaintRectsParameters;
     "Page.setEmulatedMedia": Page.setEmulatedMediaParameters;
     "Page.setForcedAppearance": Page.setForcedAppearanceParameters;
-    "Page.setTimeZone": Page.setTimeZoneParameters;
     "Page.setTouchEmulationEnabled": Page.setTouchEmulationEnabledParameters;
     "Page.snapshotNode": Page.snapshotNodeParameters;
     "Page.snapshotRect": Page.snapshotRectParameters;
@@ -8924,7 +8919,6 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
     "Page.setShowPaintRects": Page.setShowPaintRectsReturnValue;
     "Page.setEmulatedMedia": Page.setEmulatedMediaReturnValue;
     "Page.setForcedAppearance": Page.setForcedAppearanceReturnValue;
-    "Page.setTimeZone": Page.setTimeZoneReturnValue;
     "Page.setTouchEmulationEnabled": Page.setTouchEmulationEnabledReturnValue;
     "Page.snapshotNode": Page.snapshotNodeReturnValue;
     "Page.snapshotRect": Page.snapshotRectReturnValue;

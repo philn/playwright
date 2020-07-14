@@ -73,7 +73,7 @@ export class WKBrowser extends BrowserBase {
 
   async newContext(options: BrowserContextOptions = {}): Promise<BrowserContext> {
     options = validateBrowserContextOptions(options);
-    const { browserContextId } = await this._browserSession.send('Playwright.createContext');
+    const { browserContextId } = await this._browserSession.send('Playwright.createContext', { timeZone: options.timezoneId });
     options.userAgent = options.userAgent || DEFAULT_USER_AGENT;
     const context = new WKBrowserContext(this, browserContextId, options);
     await context._initialize();
@@ -244,8 +244,19 @@ export class WKBrowserContext extends BrowserContextBase {
 
   async newPage(): Promise<Page> {
     assertBrowserContextIsNotOwned(this);
-    const { pageProxyId } = await this._browser._browserSession.send('Playwright.createPage', { browserContextId: this._browserContextId });
-    const wkPage = this._browser._wkPages.get(pageProxyId)!;
+    let callResult = { pageProxyId: "invalid" };
+    try {
+      callResult = await this._browser._browserSession.send('Playwright.createPage', { browserContextId: this._browserContextId });
+    } catch(e) {
+      if (e instanceof Error && e.message.includes("Invalid timezone ID:")) {
+        // Strip away the [{\"code\":-32000,\"message\":\"Invalid timezone ID: Foo/Bar\"}] part.
+        const index = e.message.indexOf("Invalid timezone ID:");
+        const indexEnd = e.message.indexOf("[");
+        throw new Error(e.message.substring(index, indexEnd -1));
+      }
+      throw e;
+    }
+    const wkPage = this._browser._wkPages.get(callResult.pageProxyId)!;
     const result = await wkPage.pageOrError();
     if (result instanceof Page) {
       if (result.isClosed())

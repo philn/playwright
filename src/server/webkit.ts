@@ -51,7 +51,7 @@ export class WebKit extends BrowserTypeBase {
   }
 
   _defaultArgs(options: LaunchOptionsBase, isPersistent: boolean, userDataDir: string): string[] {
-    const { args = [], proxy, devtools, headless } = options;
+    const { args = [], proxy, devtools, headless, timezoneId } = options;
     if (devtools)
       console.warn('devtools parameter as a launch argument in WebKit is not supported. Also starting Web Inspector manually will terminate the execution in WebKit.');
     const userDataDirArg = args.find(arg => arg.startsWith('--user-data-dir='));
@@ -81,6 +81,9 @@ export class WebKit extends BrowserTypeBase {
           webkitArguments.push(`--curl-noproxy=${proxy.bypass}`);
       }
     }
+    if (timezoneId)
+      webkitArguments.push(`--time-zone=${timezoneId}`);
+
     webkitArguments.push(...args);
     if (isPersistent)
       webkitArguments.push('about:blank');

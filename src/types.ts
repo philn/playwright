@@ -279,6 +279,7 @@ export type LaunchOptionsBase = {
   devtools?: boolean,
   proxy?: ProxySettings,
   downloadsPath?: string,
+  timezoneId?: string,
 };
 
 export type LaunchOptions = LaunchOptionsBase & { slowMo?: number };

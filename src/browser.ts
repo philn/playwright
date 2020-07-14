@@ -34,6 +34,7 @@ export type BrowserOptions = {
   slowMo?: number,
   ownedServer?: BrowserServer,
   proxy?: ProxySettings,
+  timezoneId?: string,
 };
 
 export type BrowserContextOptions = types.BrowserContextOptions & { logger?: LoggerSink };
