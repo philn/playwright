@@ -47,7 +47,7 @@ export class WebKit extends BrowserType {
   }
 
   _defaultArgs(options: types.LaunchOptions, isPersistent: boolean, userDataDir: string): string[] {
-    const { args = [], proxy, devtools, headless } = options;
+    const { args = [], proxy, devtools, headless, bypassCSP } = options;
     if (devtools)
       console.warn('devtools parameter as a launch argument in WebKit is not supported. Also starting Web Inspector manually will terminate the execution in WebKit.');
     const userDataDirArg = args.find(arg => arg.startsWith('--user-data-dir='));
@@ -77,6 +77,8 @@ export class WebKit extends BrowserType {
           webkitArguments.push(`--curl-noproxy=${proxy.bypass}`);
       }
     }
+    if (bypassCSP)
+      webkitArguments.push(`--enable-content-security-policy-bypassing=1`);
     webkitArguments.push(...args);
     if (isPersistent)
       webkitArguments.push('about:blank');

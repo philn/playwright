@@ -177,8 +177,6 @@ export class WKPage implements PageDelegate {
     promises.push(session.send('Page.setBootstrapScript', { source: this._calculateBootstrapScript() }));
     for (const binding of this._browserContext._pageBindings.values())
       promises.push(this._evaluateBindingScript(binding));
-    if (contextOptions.bypassCSP)
-      promises.push(session.send('Page.setBypassCSP', { enabled: true }));
     if (this._page._state.viewportSize) {
       promises.push(session.send('Page.setScreenSizeOverride', {
         width: this._page._state.viewportSize.width,

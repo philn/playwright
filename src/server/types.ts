@@ -261,6 +261,7 @@ type LaunchOptionsBase = {
   proxy?: ProxySettings,
   downloadsPath?: string,
   chromiumSandbox?: boolean,
+  bypassCSP?: boolean,
   slowMo?: number,
 };
 export type LaunchOptions = LaunchOptionsBase & UIOptions & {

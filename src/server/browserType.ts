@@ -95,6 +95,7 @@ export abstract class BrowserType {
       downloadsPath,
       browserProcess,
       proxy: options.proxy,
+      bypassCSP: options.bypassCSP,
     };
     if (persistent)
       validateBrowserContextOptions(persistent, browserOptions);

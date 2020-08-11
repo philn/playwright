@@ -36,6 +36,7 @@ export type BrowserOptions = types.UIOptions & {
   persistent?: types.BrowserContextOptions,  // Undefined means no persistent context.
   browserProcess: BrowserProcess,
   proxy?: ProxySettings,
+  bypassCSP?: boolean,
 };
 
 export abstract class Browser extends EventEmitter {
@@ -119,4 +120,3 @@ export abstract class Browser extends EventEmitter {
       await new Promise(x => this.once(Browser.Events.Disconnected, x));
   }
 }
-

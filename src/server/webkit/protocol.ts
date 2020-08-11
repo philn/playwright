@@ -6603,17 +6603,6 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
     export type createUserWorldReturnValue = {
     }
     /**
-     * Enable page Content Security Policy by-passing.
-     */
-    export type setBypassCSPParameters = {
-      /**
-       * Whether to bypass page CSP.
-       */
-      enabled: boolean;
-    }
-    export type setBypassCSPReturnValue = {
-    }
-    /**
      * Crashes the page process
      */
     export type crashParameters = {
@@ -6852,6 +6841,10 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
        * Proxy bypass list, similar to the one passed to --proxy-bypass-list
        */
       proxyBypassList?: string;
+      /**
+       * Content-Security-Policy by-pass
+       */
+      bypassCSP?: boolean;
     }
     export type createContextReturnValue = {
       /**
@@ -8665,7 +8658,6 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
     "Page.setInterceptFileChooserDialog": Page.setInterceptFileChooserDialogParameters;
     "Page.setDefaultBackgroundColorOverride": Page.setDefaultBackgroundColorOverrideParameters;
     "Page.createUserWorld": Page.createUserWorldParameters;
-    "Page.setBypassCSP": Page.setBypassCSPParameters;
     "Page.crash": Page.crashParameters;
     "Page.setScreenSizeOverride": Page.setScreenSizeOverrideParameters;
     "Page.setOrientationOverride": Page.setOrientationOverrideParameters;
@@ -8948,7 +8940,6 @@ Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
     "Page.setInterceptFileChooserDialog": Page.setInterceptFileChooserDialogReturnValue;
     "Page.setDefaultBackgroundColorOverride": Page.setDefaultBackgroundColorOverrideReturnValue;
     "Page.createUserWorld": Page.createUserWorldReturnValue;
-    "Page.setBypassCSP": Page.setBypassCSPReturnValue;
     "Page.crash": Page.crashReturnValue;
     "Page.setScreenSizeOverride": Page.setScreenSizeOverrideReturnValue;
     "Page.setOrientationOverride": Page.setOrientationOverrideReturnValue;

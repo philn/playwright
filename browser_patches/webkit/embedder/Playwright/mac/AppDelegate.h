@@ -42,6 +42,7 @@
     NSString* _proxyServer;
     NSString* _proxyBypassList;
     IBOutlet NSMenuItem *_newWebKit2WindowItem;
+    bool _bypassCSP;
 }
 
 @end

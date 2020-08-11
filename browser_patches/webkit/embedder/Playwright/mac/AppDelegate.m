@@ -91,6 +91,7 @@ const NSActivityOptions ActivityOptions =
     _userDataDir = nil;
     _proxyServer = nil;
     _proxyBypassList = nil;
+    _bypassCSP = FALSE;
     NSArray *arguments = [[NSProcessInfo processInfo] arguments];
     NSRange subargs = NSMakeRange(1, [arguments count] - 1);
     NSArray *subArray = [arguments subarrayWithRange:subargs];
@@ -114,6 +115,7 @@ const NSActivityOptions ActivityOptions =
 
     _headless = [arguments containsObject: @"--headless"];
     _noStartupWindow = [arguments containsObject: @"--no-startup-window"];
+    _bypassCSP = [arguments containsObject: @"--csp-bypass"];
     _browserContexts = [[NSMutableSet alloc] init];
 
     if (_headless) {
@@ -238,6 +240,7 @@ const NSActivityOptions ActivityOptions =
         _WKProcessPoolConfiguration *processConfiguration = [[[_WKProcessPoolConfiguration alloc] init] autorelease];
         processConfiguration.forceOverlayScrollbars = YES;
         configuration.processPool = [[[WKProcessPool alloc] _initWithConfiguration:processConfiguration] autorelease];
+        [configuration _setContentSecurityPolicyByPassEnabled: [self cspByPassEnabled]];
     }
     return configuration;
 }
@@ -271,9 +274,15 @@ const NSActivityOptions ActivityOptions =
         WKWebViewConfiguration *configuration = [[[self defaultConfiguration] copy] autorelease];
         configuration.websiteDataStore = [browserContext dataStore];
         configuration.processPool = [browserContext processPool];
+        [configuration _setContentSecurityPolicyByPassEnabled: [browserContext cspByPassEnabled]];
         return configuration;
     }
     return [self defaultConfiguration];
+}
+
+- (BOOL)cspByPassEnabled
+{
+    return _bypassCSP;
 }
 
 - (WKWebView *)createNewPage:(uint64_t)sessionID
@@ -322,7 +331,7 @@ const NSActivityOptions ActivityOptions =
     return [webView autorelease];
 }
 
-- (_WKBrowserContext *)createBrowserContext:(NSString *)proxyServer WithBypassList:(NSString *) proxyBypassList
+- (_WKBrowserContext *)createBrowserContext:(NSString *)proxyServer WithBypassList:(NSString *) proxyBypassList WithCSPByPass:(BOOL) cspByPassEnabled
 {
     _WKBrowserContext *browserContext = [[_WKBrowserContext alloc] init];
     _WKProcessPoolConfiguration *processConfiguration = [[[_WKProcessPoolConfiguration alloc] init] autorelease];
@@ -332,10 +341,15 @@ const NSActivityOptions ActivityOptions =
         proxyServer = _proxyServer;
     if (!proxyBypassList || ![proxyBypassList length])
         proxyBypassList = _proxyBypassList;
+
+    if (!cspByPassEnabled)
+        cspByPassEnabled = _bypassCSP;
+
     [dataStoreConfiguration setProxyConfiguration:[self proxyConfiguration:proxyServer WithBypassList:proxyBypassList]];
     browserContext.dataStore = [[WKWebsiteDataStore alloc] _initWithConfiguration:dataStoreConfiguration];
     browserContext.processPool = [[[WKProcessPool alloc] _initWithConfiguration:processConfiguration] autorelease];
     [browserContext.processPool _setDownloadDelegate:self];
+    browserContext.cspByPassEnabled = cspByPassEnabled;
     [_browserContexts addObject:browserContext];
     return browserContext;
 }
