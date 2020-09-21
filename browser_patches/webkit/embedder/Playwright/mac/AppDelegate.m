@@ -115,7 +115,7 @@ const NSActivityOptions ActivityOptions =
 
     _headless = [arguments containsObject: @"--headless"];
     _noStartupWindow = [arguments containsObject: @"--no-startup-window"];
-    _bypassCSP = [arguments containsObject: @"--csp-bypass"];
+    _bypassCSP = [arguments containsObject: @"--enable-content-security-policy-bypassing=1"];
     _browserContexts = [[NSMutableSet alloc] init];
 
     if (_headless) {
